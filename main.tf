@@ -2,7 +2,7 @@ provider aws {
 	
 }
 
-resource "aws_vpc" "main" {
+resource "aws_vpc" "vpc" {
   cidr_block       = "172.23.0.0/16"
 
   tags {
@@ -10,4 +10,12 @@ resource "aws_vpc" "main" {
   }
 }
 
+resource "aws_subnet" "subnet_public" {
+  vpc_id     = "${aws_vpc.vpc.id}"
+  cidr_block = "172.23.0.0/24"
+
+  tags {
+    Name = "cyrille"
+  }
+}
 
