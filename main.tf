@@ -28,3 +28,11 @@ resource "aws_subnet" "subnet_publici_2" {
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  tags {
+    Name = "cyrille"
+  }
+}
+
