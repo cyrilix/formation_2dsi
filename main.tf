@@ -1,7 +1,7 @@
 provider aws {}
 
 resource "aws_vpc" "vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = "${var.vpc_cidr_block}"
 
   tags {
     Name = "cyrille"
@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_subnet" "subnet_public_1" {
   vpc_id                  = "${aws_vpc.vpc.id}"
-  cidr_block              = "10.0.0.0/24"
+  cidr_block              = "${cidrsubnet("${var.vpc_cidr_block}", 8, 0)}"
   map_public_ip_on_launch = true
 
   tags {
@@ -20,7 +20,7 @@ resource "aws_subnet" "subnet_public_1" {
 
 resource "aws_subnet" "subnet_public_2" {
   vpc_id     = "${aws_vpc.vpc.id}"
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "${cidrsubnet("${var.vpc_cidr_block}", 8, 1)}"
 
   tags {
     Name = "cyrille"
