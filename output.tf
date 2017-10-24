@@ -9,3 +9,7 @@ output "subnet_id_1" {
 output "subnet_id_2" {
   value = "${aws_subnet.subnet_public_2.id}"
 }
+
+output "subnet_ids" {
+  value = ["${aws_subnet.subnet_public_1.id}", "${aws_subnet.subnet_public_2.id}"]
+}
