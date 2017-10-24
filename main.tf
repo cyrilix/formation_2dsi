@@ -35,10 +35,11 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-resource aws_eip "eip_nat" {}
+resource aws_eip "eip_nat1" {}
+resource aws_eip "eip_nat2" {}
 
-resource "aws_nat_gateway" "gw_nat" {
-  allocation_id = "${aws_eip.eip_nat.id}"
+resource "aws_nat_gateway" "gw_nat1" {
+  allocation_id = "${aws_eip.eip_nat1.id}"
   subnet_id     = "${aws_subnet.subnet_public_1.id}"
 
   tags {
@@ -46,7 +47,16 @@ resource "aws_nat_gateway" "gw_nat" {
   }
 }
 
-resource "aws_route_table" "route_table1" {
+resource "aws_nat_gateway" "gw_nat2" {
+  allocation_id = "${aws_eip.eip_nat2.id}"
+  subnet_id     = "${aws_subnet.subnet_public_2.id}"
+
+  tags {
+    Name = "cyrille"
+  }
+}
+
+resource "aws_route_table" "route_table" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   route {
@@ -59,7 +69,12 @@ resource "aws_route_table" "route_table1" {
   }
 }
 
-resource "aws_route_table_association" "a" {
+resource "aws_route_table_association" "a1" {
   subnet_id      = "${aws_subnet.subnet_public_1.id}"
-  route_table_id = "${aws_route_table.route_table1.id}"
+  route_table_id = "${aws_route_table.route_table.id}"
+}
+
+resource "aws_route_table_association" "a2" {
+  subnet_id      = "${aws_subnet.subnet_public_2.id}"
+  route_table_id = "${aws_route_table.route_table.id}"
 }
