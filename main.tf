@@ -1,9 +1,7 @@
-provider aws {
-	
-}
+provider aws {}
 
 resource "aws_vpc" "vpc" {
-  cidr_block       = "172.23.0.0/16"
+  cidr_block = "172.23.0.0/16"
 
   tags {
     Name = "cyrille"
@@ -11,9 +9,10 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_subnet" "subnet_public_1" {
-  vpc_id     = "${aws_vpc.vpc.id}"
-  cidr_block = "172.23.0.0/24"
- map_public_ip_on_launch = true
+  vpc_id                  = "${aws_vpc.vpc.id}"
+  cidr_block              = "172.23.0.0/24"
+  map_public_ip_on_launch = true
+
   tags {
     Name = "cyrille"
   }
@@ -36,8 +35,7 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-resource aws_eip "eip_nat" {
-}
+resource aws_eip "eip_nat" {}
 
 resource "aws_nat_gateway" "gw_nat" {
   allocation_id = "${aws_eip.eip_nat.id}"
@@ -47,7 +45,6 @@ resource "aws_nat_gateway" "gw_nat" {
     Name = "cyrille"
   }
 }
-
 
 resource "aws_route_table" "route_table1" {
   vpc_id = "${aws_vpc.vpc.id}"
@@ -61,8 +58,8 @@ resource "aws_route_table" "route_table1" {
     Name = "cyrille"
   }
 }
+
 resource "aws_route_table_association" "a" {
   subnet_id      = "${aws_subnet.subnet_public_1.id}"
   route_table_id = "${aws_route_table.route_table1.id}"
 }
-
